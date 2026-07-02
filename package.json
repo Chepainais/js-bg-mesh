@@ -47,6 +47,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:demo": "vite build --config vite.demo.config.ts",
+    "preview:demo": "vite preview --config vite.demo.config.ts",
     "preview": "vite preview",
     "prepublishOnly": "npm run build",
     "publish:github": "npm publish",

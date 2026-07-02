@@ -2,6 +2,8 @@
 
 Lightweight animated background mesh for websites — a network of dots connected by lines, generated with Delaunay triangulation. Place it behind page content, constrain it to rectangles or **custom polygon shapes** (e.g. logo parts).
 
+**[Live demo](https://chepainais.github.io/js-bg-mesh/)** — interactive preview and mask-to-config export.
+
 ## Package
 
 | | |
@@ -138,7 +140,11 @@ mesh.destroy();
 
 ## Demo & mask import
 
+**[Live demo](https://chepainais.github.io/js-bg-mesh/)** — hosted on GitHub Pages. Updated automatically on every push to `main`.
+
 The interactive demo includes a **mask importer** for turning a logo or diagram into polygon zones.
+
+**Run locally:**
 
 ```bash
 git clone https://github.com/Chepainais/js-bg-mesh.git
@@ -365,11 +371,13 @@ Exported types: `BgMeshConfig`, `ZoneConfig`, `ZoneLayout`, `MeshStyle`, `Animat
 
 ```bash
 npm install
-npm run dev      # demo at http://localhost:5173
-npm run build    # dist/bg-mesh.es.js, dist/bg-mesh.umd.js, dist/index.d.ts
+npm run dev          # demo at http://localhost:5173
+npm run build        # library → dist/
+npm run build:demo   # static demo → demo-dist/ (same as GitHub Pages deploy)
+npm run preview:demo # preview demo-dist/ locally
 ```
 
-`npm run dev` serves the `demo/` folder. `npm run build` compiles the library from `src/` into `dist/`.
+`npm run dev` serves the `demo/` folder. `npm run build` compiles the library from `src/` into `dist/`. The live demo is built with `npm run build:demo` and deployed via GitHub Actions.
 
 ### Project layout
 
