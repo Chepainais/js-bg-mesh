@@ -284,6 +284,13 @@ body {
   line-height: 1.4;
 }
 
+.mask-hint {
+  font-size: 0.7rem;
+  color: rgba(232, 234, 237, 0.45);
+  line-height: 1.35;
+  margin: -0.35rem 0 0.65rem;
+}
+
 .mask-status.is-error {
   color: #ff8a8a;
 }

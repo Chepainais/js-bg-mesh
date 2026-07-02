@@ -34,7 +34,9 @@
         Mask file (PNG / SVG)
         <input type="file" id="maskFile" accept="image/png,image/svg+xml,.svg">
       </label>
+      <p class="mask-hint">PNG masks need large, flat color areas with sharp edges — avoid gradients, anti-aliasing, and fine detail.</p>
       <div class="sample-buttons">
+        <button type="button" id="loadSampleLogo" class="btn-secondary">Sample: logo (PNG)</button>
         <button type="button" id="loadSample3" class="btn-secondary">Sample: 3 shapes</button>
         <button type="button" id="loadSample5" class="btn-secondary">Sample: 5 pentagons</button>
         <button type="button" id="loadSample4" class="btn-secondary">Sample: 4 mosaic</button>
@@ -49,7 +51,7 @@
         <input type="checkbox" id="showMaskOverlay" checked>
         Show polygon outlines
       </label>
-      <p id="maskStatus" class="mask-status">Upload a color map or filled SVG to detect zones.</p>
+      <p id="maskStatus" class="mask-status">Upload a color map (PNG) or filled SVG to detect zones.</p>
     </div>
 
     <div class="controls-section">

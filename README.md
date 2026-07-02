@@ -158,7 +158,7 @@ Opens `http://localhost:5173`. In the sidebar, use **Zones from image**:
 **Preview** — hide the foreground content and change the hero background color.
 
 1. Upload a mask file:
-   - **PNG** — flat colors per region on transparent or dark background; thin black lines between same-color parts
+   - **PNG** — large, flat color areas with sharp edges (no gradients or soft blends); one solid color per zone on transparent or dark background; thin black lines between same-color parts
    - **SVG** — filled shapes (`path`, `polygon`, `rect`) with distinct `fill` colors
 2. Preview detected regions and polygon outlines
 3. Tune zones with the controls (per-zone tabs, global overrides, zoom/pan)
@@ -168,20 +168,22 @@ Opens `http://localhost:5173`. In the sidebar, use **Zones from image**:
 
 ### Sample masks
 
-Built-in sample buttons in the demo load files from `demo/samples/`:
+Built-in sample buttons in the demo load files from `demo/public/samples/`:
 
 | File | Description |
 |------|-------------|
-| [`logo-3zones.svg`](demo/samples/logo-3zones.svg) | Simple 3-zone SVG |
-| [`sample-pentagons.svg`](demo/samples/sample-pentagons.svg) | 5 pentagon shapes |
-| [`sample-mosaic.svg`](demo/samples/sample-mosaic.svg) | 4-piece mosaic |
-| [`sample-bars.svg`](demo/samples/sample-bars.svg) | 5 vertical bars |
+| [`sample-logo.png`](demo/public/samples/sample-logo.png) | Multi-zone logo (PNG color map) |
+| [`logo-3zones.svg`](demo/public/samples/logo-3zones.svg) | Simple 3-zone SVG |
+| [`sample-pentagons.svg`](demo/public/samples/sample-pentagons.svg) | 5 pentagon shapes |
+| [`sample-mosaic.svg`](demo/public/samples/sample-mosaic.svg) | 4-piece mosaic |
+| [`sample-bars.svg`](demo/public/samples/sample-bars.svg) | 5 vertical bars |
 
 There is also a **Random mask** button that generates a synthetic test image in the browser.
 
 ### PNG mask tips
 
-- Use **flat fill colors** per region (avoid gradients inside zones)
+- Use **large, flat color areas** with sharp edges — small or anti-aliased regions are hard to detect reliably
+- One **solid fill color** per zone (avoid gradients inside zones)
 - Separate adjacent same-color regions with **1px black outlines**
 - Prefer **transparent** or solid dark background
 - Export at a reasonable size (e.g. 150–512 px); the demo preserves aspect ratio
@@ -407,7 +409,7 @@ demo/                     Interactive demo (not published to npm)
     parseSvg.ts
     exportConfig.ts       Integration code export
     ...
-  samples/                Example mask SVG files
+  public/samples/         Example mask SVG files (copied to demo-dist on build)
 
 dist/                     Build output (ESM, UMD, TypeScript declarations)
 vite.config.ts            Dev → demo root; build → library mode

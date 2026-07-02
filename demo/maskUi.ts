@@ -339,8 +339,16 @@ async function handleMaskFile(file: File, onApply: () => void): Promise<void> {
   }
 }
 
-async function loadSample(path: string, filename: string, onApply: () => void): Promise<void> {
-  const res = await fetch(path);
+function sampleUrl(filename: string): string {
+  return `${import.meta.env.BASE_URL}samples/${filename}`;
+}
+
+async function loadSample(filename: string, onApply: () => void): Promise<void> {
+  const res = await fetch(sampleUrl(filename));
+  if (!res.ok) {
+    setStatus(`Mask processing failed: Failed to load sample (${res.status})`, 'error');
+    return;
+  }
   const blob = await res.blob();
   const type = filename.endsWith('.svg') ? 'image/svg+xml' : 'image/png';
   const file = new File([blob], filename, { type });
@@ -355,14 +363,16 @@ export function initMaskUi(onApply: () => void): void {
     if (file) void handleMaskFile(file, onApply);
   });
 
+  document.getElementById('loadSampleLogo')!.addEventListener('click', () =>
+    void loadSample('sample-logo.png', onApply));
   document.getElementById('loadSample3')!.addEventListener('click', () =>
-    void loadSample('./samples/logo-3zones.svg', 'logo-3zones.svg', onApply));
+    void loadSample('logo-3zones.svg', onApply));
   document.getElementById('loadSample5')!.addEventListener('click', () =>
-    void loadSample('./samples/sample-pentagons.svg', 'sample-pentagons.svg', onApply));
+    void loadSample('sample-pentagons.svg', onApply));
   document.getElementById('loadSample4')!.addEventListener('click', () =>
-    void loadSample('./samples/sample-mosaic.svg', 'sample-mosaic.svg', onApply));
+    void loadSample('sample-mosaic.svg', onApply));
   document.getElementById('loadSampleBars')!.addEventListener('click', () =>
-    void loadSample('./samples/sample-bars.svg', 'sample-bars.svg', onApply));
+    void loadSample('sample-bars.svg', onApply));
   document.getElementById('loadSampleRandom')!.addEventListener('click', () => {
     const { width, height } = getContainerSize();
     void handleMaskFile(randomSampleFile(width, height), onApply);
