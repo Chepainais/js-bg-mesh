@@ -1,6 +1,6 @@
 {
   "name": "@chepainais/js-bg-mesh",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lightweight animated background mesh (dots and lines) with multi-zone layouts and polygon mask import for logo-shaped meshes",
   "type": "module",
   "license": "MIT",

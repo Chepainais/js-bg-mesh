@@ -7,7 +7,7 @@ Lightweight animated background mesh for websites — a network of dots connecte
 | | |
 |---|---|
 | **Name** | [`@chepainais/js-bg-mesh`](https://www.npmjs.com/package/@chepainais/js-bg-mesh) |
-| **Version** | `1.0.1` |
+| **Version** | `1.0.2` |
 | **License** | MIT |
 | **Registry** | [npmjs.org](https://www.npmjs.com/package/@chepainais/js-bg-mesh) · [GitHub Packages](https://github.com/users/Chepainais/packages/npm/package/js-bg-mesh) |
 | **Repository** | [github.com/Chepainais/js-bg-mesh](https://github.com/Chepainais/js-bg-mesh) |
@@ -115,7 +115,7 @@ mesh.destroy();
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@chepainais/js-bg-mesh@1.0.1/dist/bg-mesh.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@chepainais/js-bg-mesh@1.0.2/dist/bg-mesh.umd.js"></script>
 <script>
   BgMesh.init({
     container: '#hero',
@@ -134,7 +134,7 @@ mesh.destroy();
 </script>
 ```
 
-> Pin the version in the CDN URL (e.g. `@1.0.1`) when using in production. [unpkg](https://unpkg.com/@chepainais/js-bg-mesh@1.0.1/dist/bg-mesh.umd.js) works the same way.
+> Pin the version in the CDN URL (e.g. `@1.0.2`) when using in production. [unpkg](https://unpkg.com/@chepainais/js-bg-mesh@1.0.2/dist/bg-mesh.umd.js) works the same way.
 
 ## Demo & mask import
 
@@ -402,40 +402,6 @@ demo/                     Interactive demo (not published to npm)
 dist/                     Build output (ESM, UMD, TypeScript declarations)
 vite.config.ts            Dev → demo root; build → library mode
 ```
-
-## Publishing (maintainers)
-
-The package is published as **`@chepainais/js-bg-mesh`** to both registries. `prepublishOnly` runs the build automatically. Only `dist/`, `LICENSE`, and `README.md` are shipped — not the demo.
-
-### GitHub Packages (default)
-
-`package.json` includes `"publishConfig": { "registry": "https://npm.pkg.github.com" }`. The repo `.npmrc` routes the `@chepainais` scope to GitHub Packages.
-
-1. Create a [personal access token (classic)](https://github.com/settings/tokens) with `write:packages` and `read:packages`
-2. Log in once:
-
-```bash
-npm login --scope=@chepainais --auth-type=legacy --registry=https://npm.pkg.github.com
-# Username: Chepainais
-# Password: <your token>
-```
-
-3. Publish:
-
-```bash
-npm run publish:github
-```
-
-After the first publish, set package visibility to **public** under [GitHub Packages](https://github.com/users/Chepainais/packages) → `js-bg-mesh` → Package settings.
-
-### npmjs.org
-
-```bash
-npm login --registry https://registry.npmjs.org
-npm run publish:npm
-```
-
-Both registries use the same scoped name: `@chepainais/js-bg-mesh`.
 
 ## License
 
