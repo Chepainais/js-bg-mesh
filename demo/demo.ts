@@ -713,6 +713,13 @@ function renderZoneTabs(): void {
   updateZoneControlsSummary();
 }
 
+function updatePreviewSettings(): void {
+  const heroContent = document.querySelector('.hero-content') as HTMLElement;
+  const hideForeground = (document.getElementById('hideForeground') as HTMLInputElement).checked;
+  heroContent.classList.toggle('is-hidden', hideForeground);
+  document.getElementById('hero')!.style.background = getVal('heroBgColor').value;
+}
+
 function onGlobalChange(): void {
   updateMesh();
 }
@@ -795,6 +802,8 @@ bindRange('globalCellFillMax', 'globalCellFillMaxVal', onGlobalStyleAllChange, (
 getVal('lineColor').addEventListener('input', onStyleChange);
 getVal('dotColor').addEventListener('input', onStyleChange);
 (document.getElementById('clipAnimation') as HTMLInputElement).addEventListener('change', onGeometryChange);
+(document.getElementById('hideForeground') as HTMLInputElement).addEventListener('change', updatePreviewSettings);
+getVal('heroBgColor').addEventListener('input', updatePreviewSettings);
 (document.getElementById('hideZoneBtn') as HTMLButtonElement).addEventListener('click', () => {
   if (!isUsingImportedZones() || getZoneCount() === 0) return;
   readFormIntoState(activeZoneIndex);
@@ -863,4 +872,5 @@ if (getZoneCount() > 0) {
   loadStateIntoForm(activeZoneIndex);
 }
 renderZoneTabs();
+updatePreviewSettings();
 updateMesh();

@@ -15,7 +15,13 @@ body {
   position: relative;
   min-height: 100vh;
   overflow: visible;
-  background: linear-gradient(135deg, #0f1117 0%, #1a1f35 50%, #0f1117 100%);
+  background: #1a1f35;
+  transition: background-color 0.25s ease;
+}
+
+.hero-content.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .hero-content {

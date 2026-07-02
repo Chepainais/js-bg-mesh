@@ -9,7 +9,7 @@ Lightweight animated background mesh for websites — a network of dots connecte
 | | |
 |---|---|
 | **Name** | [`@chepainais/js-bg-mesh`](https://www.npmjs.com/package/@chepainais/js-bg-mesh) |
-| **Version** | `1.0.2` |
+| **Version** | `1.0.3` |
 | **License** | MIT |
 | **Registry** | [npmjs.org](https://www.npmjs.com/package/@chepainais/js-bg-mesh) · [GitHub Packages](https://github.com/users/Chepainais/packages/npm/package/js-bg-mesh) |
 | **Repository** | [github.com/Chepainais/js-bg-mesh](https://github.com/Chepainais/js-bg-mesh) |
@@ -117,7 +117,7 @@ mesh.destroy();
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@chepainais/js-bg-mesh@1.0.2/dist/bg-mesh.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@chepainais/js-bg-mesh@1.0.3/dist/bg-mesh.umd.js"></script>
 <script>
   BgMesh.init({
     container: '#hero',
@@ -136,7 +136,7 @@ mesh.destroy();
 </script>
 ```
 
-> Pin the version in the CDN URL (e.g. `@1.0.2`) when using in production. [unpkg](https://unpkg.com/@chepainais/js-bg-mesh@1.0.2/dist/bg-mesh.umd.js) works the same way.
+> Pin the version in the CDN URL (e.g. `@1.0.3`) when using in production. [unpkg](https://unpkg.com/@chepainais/js-bg-mesh@1.0.3/dist/bg-mesh.umd.js) works the same way.
 
 ## Demo & mask import
 
@@ -154,6 +154,8 @@ npm run dev
 ```
 
 Opens `http://localhost:5173`. In the sidebar, use **Zones from image**:
+
+**Preview** — hide the foreground content and change the hero background color.
 
 1. Upload a mask file:
    - **PNG** — flat colors per region on transparent or dark background; thin black lines between same-color parts
