@@ -1,0 +1,58 @@
+{
+  "name": "js-bg-mesh",
+  "version": "1.0.0",
+  "description": "Lightweight animated background mesh (dots and lines) with multi-zone layouts and polygon mask import for logo-shaped meshes",
+  "type": "module",
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chepa/js-bg-mesh.git"
+  },
+  "bugs": {
+    "url": "https://github.com/chepa/js-bg-mesh/issues"
+  },
+  "homepage": "https://github.com/chepa/js-bg-mesh#readme",
+  "keywords": [
+    "background",
+    "mesh",
+    "canvas",
+    "animation",
+    "delaunay",
+    "triangulation",
+    "polygon",
+    "logo",
+    "hero",
+    "web"
+  ],
+  "sideEffects": false,
+  "main": "./dist/bg-mesh.umd.js",
+  "module": "./dist/bg-mesh.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/bg-mesh.es.js",
+      "require": "./dist/bg-mesh.umd.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "d3-delaunay": "^6.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3",
+    "vite-plugin-dts": "^4.3.0"
+  }
+}

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS BG Mesh — Demo</title>
+  <link rel="stylesheet" href="demo.css">
+</head>
+<body>
+  <div id="hero" class="hero">
+    <div id="maskHeroLoading" class="mask-hero-loading" hidden aria-live="polite">
+      <span class="mask-loading-spinner" aria-hidden="true"></span>
+      <span id="maskHeroLoadingText">Processing mask...</span>
+    </div>
+    <canvas id="maskOverlay" class="mask-overlay"></canvas>
+    <canvas id="zoneHighlight" class="zone-highlight"></canvas>
+    <div class="hero-content">
+      <h1>Background mesh animation</h1>
+      <p>Content sits above the animated dot-and-line mesh. Each zone can be tuned independently.</p>
+      <button class="cta">Get started</button>
+    </div>
+  </div>
+
+  <aside id="controls" class="controls">
+    <h2>Settings</h2>
+
+    <div class="controls-section" id="maskSection">
+      <h3 class="controls-sub">Zones from image</h3>
+      <div id="maskLoading" class="mask-loading" hidden aria-live="polite">
+        <span class="mask-loading-spinner" aria-hidden="true"></span>
+        <span id="maskLoadingText">Processing mask...</span>
+      </div>
+      <label class="file-label">
+        Mask file (PNG / SVG)
+        <input type="file" id="maskFile" accept="image/png,image/svg+xml,.svg">
+      </label>
+      <div class="sample-buttons">
+        <button type="button" id="loadSample3" class="btn-secondary">Sample: 3 shapes</button>
+        <button type="button" id="loadSample5" class="btn-secondary">Sample: 5 pentagons</button>
+        <button type="button" id="loadSample4" class="btn-secondary">Sample: 4 mosaic</button>
+        <button type="button" id="loadSampleBars" class="btn-secondary">Sample: 5 bars</button>
+        <button type="button" id="loadSampleRandom" class="btn-secondary">Random mask</button>
+      </div>
+      <div class="mask-actions mask-actions-row">
+        <button type="button" id="showExportCode" class="btn-secondary" disabled>Show code</button>
+        <button type="button" id="copyExportCode" class="btn-secondary" disabled>Copy</button>
+      </div>
+      <label class="checkbox-label">
+        <input type="checkbox" id="showMaskOverlay" checked>
+        Show polygon outlines
+      </label>
+      <p id="maskStatus" class="mask-status">Upload a color map or filled SVG to detect zones.</p>
+    </div>
+
+    <div class="controls-section">
+      <h3 class="controls-sub">Global</h3>
+      <label>
+        FPS (draw rate)
+        <input type="range" id="fps" min="0" max="60" value="30">
+        <span id="fpsVal">30</span>
+      </label>
+      <label>
+        Max points per zone (0 = unlimited)
+        <input type="range" id="maxPoints" min="0" max="500" step="10" value="0">
+        <span id="maxPointsVal">auto</span>
+      </label>
+      <label>
+        Zoom (all zones)
+        <input type="range" id="zoom" min="25" max="300" step="5" value="100">
+        <span id="zoomVal">100%</span>
+      </label>
+      <label>
+        Move horizontal
+        <input type="range" id="panX" min="-150" max="150" step="1" value="0">
+        <span id="panXVal">0%</span>
+      </label>
+      <label>
+        Move vertical
+        <input type="range" id="panY" min="-150" max="150" step="1" value="0">
+        <span id="panYVal">0%</span>
+      </label>
+      <p class="controls-hint">Style overrides below apply to every zone at once.</p>
+      <label>
+        Animation speed (all zones)
+        <input type="range" id="globalSpeed" min="0" max="100" value="30">
+        <span id="globalSpeedVal">0.3</span>
+      </label>
+      <label>
+        Amplitude (all zones)
+        <input type="range" id="globalAmplitude" min="0" max="30" value="8">
+        <span id="globalAmplitudeVal">8</span>
+      </label>
+      <label>
+        Line width (all zones)
+        <input type="range" id="globalLineWidth" min="0.5" max="6" step="0.5" value="1">
+        <span id="globalLineWidthVal">1</span>
+      </label>
+      <label>
+        Line transparency (all zones)
+        <input type="range" id="globalLineOpacity" min="0" max="100" value="20">
+        <span id="globalLineOpacityVal">20%</span>
+      </label>
+      <label>
+        Dot transparency (all zones)
+        <input type="range" id="globalDotOpacity" min="0" max="100" value="50">
+        <span id="globalDotOpacityVal">50%</span>
+      </label>
+      <label>
+        Min sides (all zones)
+        <input type="range" id="globalSidesMin" min="3" max="6" value="3">
+        <span id="globalSidesMinVal">3</span>
+      </label>
+      <label>
+        Max sides (all zones)
+        <input type="range" id="globalSidesMax" min="3" max="6" value="5">
+        <span id="globalSidesMaxVal">5</span>
+      </label>
+      <label>
+        Cell fill min (all zones)
+        <input type="range" id="globalCellFillMin" min="0" max="80" value="0">
+        <span id="globalCellFillMinVal">0%</span>
+      </label>
+      <label>
+        Cell fill max (all zones)
+        <input type="range" id="globalCellFillMax" min="0" max="80" value="0">
+        <span id="globalCellFillMaxVal">0%</span>
+      </label>
+    </div>
+
+    <div class="zone-tabs" id="zoneTabs"></div>
+
+    <div id="hiddenZonesPanel" class="hidden-zones-panel" hidden>
+      <span class="hidden-zones-label">Hidden zones</span>
+      <div id="hiddenZonesList" class="hidden-zones-list"></div>
+    </div>
+
+    <div class="zone-actions">
+      <button id="addZone" type="button">+ Zone</button>
+      <button id="removeZone" type="button">− Zone</button>
+      <button id="resetAllZones" type="button">Reset all</button>
+    </div>
+
+    <p id="noZonesHint" class="no-zones-hint" hidden>No zones yet. Add one manually or import from an image.</p>
+
+    <details id="zoneControlsDetails" class="zone-controls-details">
+      <summary id="zoneControlsSummary" class="zone-controls-summary">Zone parameters</summary>
+    <div id="zoneControls" class="zone-controls">
+      <div id="zoneStatsPanel" class="zone-stats-panel" hidden>
+        <div class="zone-stats-row">
+          <span id="zoneStatsSwatch" class="zone-stats-swatch"></span>
+          <span id="zoneStatsText" class="zone-stats-text"></span>
+        </div>
+        <button type="button" id="hideZoneBtn" class="btn-secondary btn-compact">Hide zone</button>
+      </div>
+
+      <label>
+        Layout mode
+        <select id="layoutMode">
+          <option value="centered">Centered (%)</option>
+          <option value="percent">Percent</option>
+          <option value="pixel">Pixel</option>
+          <option value="polygon">Polygon (imported)</option>
+        </select>
+      </label>
+
+      <p id="polygonInfo" class="polygon-info" hidden>This zone uses an imported polygon. Adjust mesh style and parameters below.</p>
+
+      <div id="rectControls">
+      <label class="field-percent">
+        X (%)
+        <input type="range" id="posX" min="0" max="90" value="5">
+        <span id="posXVal">5</span>
+      </label>
+
+      <label class="field-percent">
+        Y (%)
+        <input type="range" id="posY" min="0" max="90" value="10">
+        <span id="posYVal">10</span>
+      </label>
+
+      <label>
+        Width (%)
+        <input type="range" id="widthPercent" min="10" max="100" value="30">
+        <span id="widthPercentVal">30</span>
+      </label>
+
+      <label>
+        Height (%)
+        <input type="range" id="heightPercent" min="10" max="100" value="100">
+        <span id="heightPercentVal">100</span>
+      </label>
+      </div>
+
+      <label id="boundaryInsetLabel">
+        Boundary inset (px)
+        <input type="range" id="boundaryInset" min="0" max="30" step="1" value="6">
+        <span id="boundaryInsetVal">6</span>
+      </label>
+
+      <label id="clipAnimationLabel" class="checkbox-label">
+        <input type="checkbox" id="clipAnimation" checked>
+        Keep animation inside polygon
+      </label>
+
+      <label>
+        Min sides
+        <input type="range" id="sidesMin" min="3" max="6" value="3">
+        <span id="sidesMinVal">3</span>
+      </label>
+
+      <label>
+        Max sides
+        <input type="range" id="sidesMax" min="3" max="6" value="5">
+        <span id="sidesMaxVal">5</span>
+      </label>
+
+      <label>
+        Min size (px)
+        <input type="range" id="sizeMin" min="10" max="120" value="30">
+        <span id="sizeMinVal">30</span>
+      </label>
+
+      <label>
+        Max size (px)
+        <input type="range" id="sizeMax" min="20" max="200" value="80">
+        <span id="sizeMaxVal">80</span>
+      </label>
+
+      <label>
+        Point count (0 = auto)
+        <input type="range" id="pointCount" min="0" max="400" step="5" value="0">
+        <span id="pointCountVal">auto</span>
+      </label>
+
+      <label>
+        Line width
+        <input type="range" id="lineWidth" min="0.5" max="6" step="0.5" value="1">
+        <span id="lineWidthVal">1</span>
+      </label>
+
+      <label>
+        Line color
+        <input type="color" id="lineColor" value="#ffffff">
+        <input type="range" id="lineOpacity" min="0" max="100" value="20">
+        <span id="lineOpacityVal">20%</span>
+      </label>
+
+      <label>
+        Dot color
+        <input type="color" id="dotColor" value="#ffffff">
+        <input type="range" id="dotOpacity" min="0" max="100" value="50">
+        <span id="dotOpacityVal">50%</span>
+      </label>
+
+      <label>
+        Animation speed
+        <input type="range" id="speed" min="0" max="100" value="30">
+        <span id="speedVal">0.3</span>
+      </label>
+
+      <label>
+        Amplitude
+        <input type="range" id="amplitude" min="0" max="30" value="8">
+        <span id="amplitudeVal">8</span>
+      </label>
+
+      <label>
+        Cell fill min (%)
+        <input type="range" id="cellFillMin" min="0" max="80" value="0">
+        <span id="cellFillMinVal">0%</span>
+      </label>
+
+      <label>
+        Cell fill max (%)
+        <input type="range" id="cellFillMax" min="0" max="80" value="0">
+        <span id="cellFillMaxVal">0%</span>
+      </label>
+      <p class="field-hint">Cell fill uses the line color. Set min &lt; max for random opacity per cell.</p>
+    </div>
+    </details>
+  </aside>
+
+  <dialog id="exportCodeDialog" class="code-dialog">
+    <div class="code-dialog-header">
+      <h3>Integration code</h3>
+      <button type="button" id="closeExportCodeDialog" class="code-dialog-close" aria-label="Close">×</button>
+    </div>
+    <p class="code-dialog-hint">Paste this into your page after loading the library.</p>
+    <textarea id="exportCodeText" class="code-dialog-text" readonly spellcheck="false"></textarea>
+    <div class="code-dialog-actions">
+      <button type="button" id="copyExportCodeFromDialog" class="btn-secondary">Copy to clipboard</button>
+      <button type="button" id="closeExportCodeDialogBtn" class="btn-secondary">Close</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="demo.ts"></script>
+</body>
+</html>
