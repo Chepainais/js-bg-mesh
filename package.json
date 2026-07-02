@@ -1,18 +1,21 @@
 {
-  "name": "js-bg-mesh",
-  "version": "1.0.0",
+  "name": "@chepainais/js-bg-mesh",
+  "version": "1.0.1",
   "description": "Lightweight animated background mesh (dots and lines) with multi-zone layouts and polygon mask import for logo-shaped meshes",
   "type": "module",
   "license": "MIT",
   "author": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chepa/js-bg-mesh.git"
+    "url": "git+https://github.com/Chepainais/js-bg-mesh.git"
   },
   "bugs": {
-    "url": "https://github.com/chepa/js-bg-mesh/issues"
+    "url": "https://github.com/Chepainais/js-bg-mesh/issues"
   },
-  "homepage": "https://github.com/chepa/js-bg-mesh#readme",
+  "homepage": "https://github.com/Chepainais/js-bg-mesh#readme",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "keywords": [
     "background",
     "mesh",
@@ -45,7 +48,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "publish:github": "npm publish",
+    "publish:npm": "npm publish --registry https://registry.npmjs.org --access public"
   },
   "dependencies": {
     "d3-delaunay": "^6.0.4"

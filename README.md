@@ -2,6 +2,32 @@
 
 Lightweight animated background mesh for websites — a network of dots connected by lines, generated with Delaunay triangulation. Place it behind page content, constrain it to rectangles or **custom polygon shapes** (e.g. logo parts).
 
+## Package
+
+| | |
+|---|---|
+| **Name** | [`@chepainais/js-bg-mesh`](https://www.npmjs.com/package/@chepainais/js-bg-mesh) |
+| **Version** | `1.0.1` |
+| **License** | MIT |
+| **Registry** | [npmjs.org](https://www.npmjs.com/package/@chepainais/js-bg-mesh) · [GitHub Packages](https://github.com/users/Chepainais/packages/npm/package/js-bg-mesh) |
+| **Repository** | [github.com/Chepainais/js-bg-mesh](https://github.com/Chepainais/js-bg-mesh) |
+
+**Install:**
+
+```bash
+npm install @chepainais/js-bg-mesh
+```
+
+**Import:**
+
+```typescript
+import { BgMesh } from '@chepainais/js-bg-mesh';
+```
+
+**Runtime dependency:** `d3-delaunay` (bundled as the only production dependency).
+
+**Published files:** `dist/bg-mesh.es.js` (ESM), `dist/bg-mesh.umd.js` (UMD), `dist/index.d.ts` (TypeScript types), `LICENSE`, `README.md`. The demo and mask importer are **not** included in the npm package.
+
 ## Features
 
 - **Wireframe mesh** — dots + lines (not filled triangles)
@@ -14,20 +40,51 @@ Lightweight animated background mesh for websites — a network of dots connecte
 
 ## Install
 
-```bash
-npm install js-bg-mesh
-```
-
-Until the package is on npm, install from GitHub:
+### npmjs.org (recommended)
 
 ```bash
-npm install github:chepa/js-bg-mesh
+npm install @chepainais/js-bg-mesh
 ```
+
+No extra configuration — works like any public scoped package.
+
+### GitHub Packages
+
+Use this if you install packages from GitHub Packages instead of npmjs.org.
+
+1. Create a [personal access token (classic)](https://github.com/settings/tokens) with `read:packages` scope
+2. Add to your user `~/.npmrc` (do not commit tokens):
+
+```
+//npm.pkg.github.com/:_authToken=YOUR_TOKEN
+```
+
+3. In your project, add `.npmrc`:
+
+```
+@chepainais:registry=https://npm.pkg.github.com
+```
+
+4. Install:
+
+```bash
+npm install @chepainais/js-bg-mesh
+```
+
+See [Working with the npm registry on GitHub Packages](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-npm-registry).
+
+### From Git (development / no registry)
+
+```bash
+npm install github:Chepainais/js-bg-mesh
+```
+
+Or clone the repo and run the demo locally (see [Demo & mask import](#demo--mask-import)).
 
 ## Quick start (ESM)
 
 ```typescript
-import { BgMesh } from 'js-bg-mesh';
+import { BgMesh } from '@chepainais/js-bg-mesh';
 
 const mesh = BgMesh.init({
   container: document.getElementById('hero')!,
@@ -58,7 +115,7 @@ mesh.destroy();
   </div>
 </div>
 
-<script src="https://unpkg.com/js-bg-mesh/dist/bg-mesh.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@chepainais/js-bg-mesh@1.0.1/dist/bg-mesh.umd.js"></script>
 <script>
   BgMesh.init({
     container: '#hero',
@@ -77,14 +134,14 @@ mesh.destroy();
 </script>
 ```
 
-> Pin the `unpkg.com` URL to a specific version after publishing.
+> Pin the version in the CDN URL (e.g. `@1.0.1`) when using in production. [unpkg](https://unpkg.com/@chepainais/js-bg-mesh@1.0.1/dist/bg-mesh.umd.js) works the same way.
 
 ## Demo & mask import
 
 The interactive demo includes a **mask importer** for turning a logo or diagram into polygon zones.
 
 ```bash
-git clone https://github.com/chepa/js-bg-mesh.git
+git clone https://github.com/Chepainais/js-bg-mesh.git
 cd js-bg-mesh
 npm install
 npm run dev
@@ -348,13 +405,37 @@ vite.config.ts            Dev → demo root; build → library mode
 
 ## Publishing (maintainers)
 
+The package is published as **`@chepainais/js-bg-mesh`** to both registries. `prepublishOnly` runs the build automatically. Only `dist/`, `LICENSE`, and `README.md` are shipped — not the demo.
+
+### GitHub Packages (default)
+
+`package.json` includes `"publishConfig": { "registry": "https://npm.pkg.github.com" }`. The repo `.npmrc` routes the `@chepainais` scope to GitHub Packages.
+
+1. Create a [personal access token (classic)](https://github.com/settings/tokens) with `write:packages` and `read:packages`
+2. Log in once:
+
 ```bash
-npm login
-npm run build
-npm publish --access public
+npm login --scope=@chepainais --auth-type=legacy --registry=https://npm.pkg.github.com
+# Username: Chepainais
+# Password: <your token>
 ```
 
-`prepublishOnly` runs the build automatically. The npm package ships only `dist/`, `LICENSE`, and `README.md` — not the demo.
+3. Publish:
+
+```bash
+npm run publish:github
+```
+
+After the first publish, set package visibility to **public** under [GitHub Packages](https://github.com/users/Chepainais/packages) → `js-bg-mesh` → Package settings.
+
+### npmjs.org
+
+```bash
+npm login --registry https://registry.npmjs.org
+npm run publish:npm
+```
+
+Both registries use the same scoped name: `@chepainais/js-bg-mesh`.
 
 ## License
 
